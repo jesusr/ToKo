@@ -11,9 +11,9 @@ function TaskListViewModel() {
     var self = this;
     self.tasks = ko.observableArray([]);
     self.newTaskText = ko.observable();
-    self.incompleteTasks = ko.computed(function() {
-        return ko.utils.arrayFilter(self.tasks(), function(task) { return !task.isDone() });
-    });
+   	self.incompleteTasks = ko.computed(function() {
+    	return ko.utils.arrayFilter(self.tasks(), function(task) { return !task.isDone() && !task._destroy });
+	});
 
     // Operations
     self.addTask = function() {
@@ -21,21 +21,10 @@ function TaskListViewModel() {
         self.newTaskText("");
     };
     self.removeTask = function(task) { self.tasks.remove(task) };
-    
-/*    $.getJSON("/tasks.json", function(allData) {
-        var mappedTasks = $.map(allData, function(item) { return new Task(item) });
-        self.tasks(mappedTasks);
-    });
-    self.save = function() {
-        $.ajax("/tasks.json", {
-            data: ko.toJSON({ tasks: self.tasks }),
-            type: "post", contentType: "application/json",
-            success: function(result) { alert(result) }
-        });
-    }; */
     self.incompleteTasks = ko.computed(function() {
         return ko.utils.arrayFilter(self.tasks(), function(task) { return !task.isDone() && !task._destroy });
     });
+
 }
 
 ko.applyBindings(new TaskListViewModel());
